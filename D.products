@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>D. Products | Online Shopping</title>
+
+<style>
+
+* {
+
+  box-sizing: border-box;
+
+  margin: 0;
+
+  padding: 0;
+
+}
+
+body {
+
+  font-family: Arial, sans-serif;
+
+  background: #f8faf9;
+
+  color: #17231e;
+
+}
+
+header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 18px 6%;
+
+  background: white;
+
+  box-shadow: 0 2px 12px #00000010;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 10;
+
+}
+
+.logo {
+
+  font-size: 25px;
+
+  font-weight: 800;
+
+}
+
+.logo span {
+
+  color: #15965e;
+
+}
+
+button {
+
+  cursor: pointer;
+
+  border: none;
+
+  border-radius: 8px;
+
+  padding: 12px 16px;
+
+  font-weight: bold;
+
+  font-size: 14px;
+
+}
+
+.cart-btn {
+
+  background: #17231e;
+
+  color: white;
+
+}
+
+.hero {
+
+  text-align: center;
+
+  padding: 75px 20px;
+
+  background: #e8f5ed;
+
+}
+
+.hero h1 {
+
+  font-size: 42px;
+
+  margin-bottom: 15px;
+
+}
+
+.hero p {
+
+  color: #59685f;
+
+  font-size: 17px;
+
+  line-height: 1.6;
+
+}
+
+.shop-btn {
+
+  margin-top: 22px;
+
+  background: #15965e;
+
+  color: white;
+
+  padding: 14px 25px;
+
+}
+
+main {
+
+  padding: 45px 6%;
+
+}
+
+.section-title {
+
+  text-align: center;
+
+  margin-bottom: 35px;
+
+}
+
+.section-title h2 {
+
+  font-size: 30px;
+
+  margin-bottom: 10px;
+
+}
+
+.section-title p {
+
+  color: #718078;
+
+}
+
+.products {
+
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 22px;
+
+}
+
+.card {
+
+  background: white;
+
+  border: 1px solid #e6ece8;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  transition: transform .2s;
+
+}
+
+.card:hover {
+
+  transform: translateY(-4px);
+
+}
+
+.product-image {
+
+  height: 220px;
+
+  background: #f0f3f1;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+.product-image img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: contain;
+
+}
+
+.discount {
+
+  position: absolute;
+
+  top: 12px;
+
+  left: 12px;
+
+  background: #15965e;
+
+  color: white;
+
+  padding: 7px 10px;
+
+  border-radius: 6px;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+}
+
+.details {
+
+  padding: 18px;
+
+}
+
+.details h3 {
+
+  font-size: 17px;
+
+  margin-bottom: 10px;
+
+}
+
+.prices {
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 9px;
+
+  margin-bottom: 14px;
+
+}
+
+.old-price {
+
+  color: #8b9690;
+
+  text-decoration: line-through;
+
+  font-size: 14px;
+
+}
+
+.new-price {
+
+  font-size: 21px;
+
+  color: #15965e;
+
+  font-weight: bold;
+
+}
+
+.actions {
+
+  display: flex;
+
+  gap: 8px;
+
+}
+
+.add {
+
+  flex: 1;
+
+  background: #e8f5ed;
+
+  color: #147b4e;
+
+}
+
+.buy {
+
+  flex: 1;
+
+  background: #15965e;
+
+  color: white;
+
+}
+
+footer {
+
+  background: #17231e;
+
+  color: white;
+
+  text-align: center;
+
+  padding: 35px 20px;
+
+}
+
+footer p {
+
+  margin-top: 10px;
+
+  color: #c5d2ca;
+
+}
+
+/* Cart popup */
+
+#cartOverlay {
+
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  background: #0008;
+
+  z-index: 100;
+
+}
+
+.cart-panel {
+
+  background: white;
+
+  width: min(440px, 100%);
+
+  height: 100%;
+
+  margin-left: auto;
+
+  padding: 25px;
+
+  overflow-y: auto;
+
+}
+
+.cart-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 25px;
+
+}
+
+.close-btn {
+
+  background: #eee;
+
+}
+
+.cart-item {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 10px;
+
+  border-bottom: 1px solid #eee;
+
+  padding: 16px 0;
+
+}
+
+.cart-item-info {
+
+  flex: 1;
+
+}
+
+.cart-item-info p {
+
+  color: #15965e;
+
+  font-weight: bold;
+
+  margin-top: 7px;
+
+}
+
+.quantity {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-top: 10px;
+
+}
+
+.quantity button {
+
+  padding: 5px 10px;
+
+  background: #edf2ee;
+
+}
+
+.remove {
+
+  background: #fff0f0;
+
+  color: #b42318;
+
+  padding: 8px;
+
+}
+
+.cart-summary {
+
+  margin-top: 25px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #ddd;
+
+}
+
+.summary-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+
+}
+
+.grand-total {
+
+  font-size: 20px;
+
+  font-weight: bold;
+
+}
+
+.checkout {
+
+  width: 100%;
+
+  background: #15965e;
+
+  color: white;
+
+  margin-top: 15px;
+
+  padding: 16px;
+
+  font-size: 16px;
+
+}
+
+.empty {
+
+  text-align: center;
+
+  padding: 35px 0;
+
+  color: #777;
+
+}
+
+@media (max-width: 1000px) {
+
+  .products {
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .products {
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+  }
+
+  main {
+
+    padding: 30px 4%;
+
+  }
+
+  .hero h1 {
+
+    font-size: 32px;
+
+  }
+
+  .product-image {
+
+    height: 170px;
+
+  }
+
+  .details {
+
+    padding: 12px;
+
+  }
+
+  .actions {
+
+    flex-direction: column;
+
+  }
+
+  .section-title h2 {
+
+    font-size: 25px;
+
+  }
+
+}
+
+@media (max-width: 360px) {
+
+  .products {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">D. <span>Products</span></div>
+
+  <button class="cart-btn" onclick="openCart()">
+
+    🛒 Cart (<span id="cartCount">0</span>)
+
+  </button>
+
+</header>
+
+<section class="hero">
+
+  <h1>Welcome to D. Products</h1>
+
+  <p>
+
+    Discover amazing products at great prices.<br>
+
+    Shop your favorites and order directly through WhatsApp.
+
+  </p>
+
+  <button class="shop-btn"
+
+    onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+
+    Shop Now
+
+  </button>
+
+</section>
+
+<main id="shop">
+
+  <div class="section-title">
+
+    <h2>Our Products</h2>
+
+    <p>Explore our latest collection and special offers.</p>
+
+  </div>
+
+  <div class="products" id="productGrid"></div>
+
+</main>
+
+<footer>
+
+  <h2>D. Products</h2>
+
+  <p>Your online shopping destination.</p>
+
+  <p>Orders and customer support through WhatsApp.</p>
+
+  <p>© 2026 D. Products. All rights reserved.</p>
+
+</footer>
+
+<!-- Shopping Cart -->
+
+<div id="cartOverlay" onclick="overlayClick(event)">
+
+  <div class="cart-panel">
+
+    <div class="cart-header">
+
+      <h2>Your Cart</h2>
+
+      <button class="close-btn" onclick="closeCart()">✕</button>
+
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-summary" id="cartSummary">
+
+      <div class="summary-row">
+
+        <span>Original total</span>
+
+        <span id="originalTotal">Rs. 0</span>
+
+      </div>
+
+      <div class="summary-row">
+
+        <span>You save</span>
+
+        <span id="savings" style="color:#15965e">Rs. 0</span>
+
+      </div>
+
+      <div class="summary-row grand-total">
+
+        <span>Total</span>
+
+        <span id="grandTotal">Rs. 0</span>
+
+      </div>
+
+      <button class="checkout" onclick="checkout()">
+
+        Order on WhatsApp
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+// ======================================
+
+// STORE SETTINGS
+
+// ======================================
+
+// Your WhatsApp number (Pakistan country code included)
+
+const WHATSAPP_NUMBER = "923465752713";
+
+// Currency
+
+const CURRENCY = "Rs.";
+
+// ======================================
+
+// YOUR 10 PRODUCTS
+
+// ======================================
+
+//
+
+// price = actual selling price
+
+// discount = discount percentage (0 to 9)
+
+// image = product photo URL
+
+//
+
+// Example:
+
+// price: 200, discount: 5
+
+// Actual price: Rs. 200
+
+// Original price: Rs. 211 (approximately)
+
+// Discount: 5%
+
+//
+
+// Change the names, prices, images, and discounts
+
+// whenever you want.
+
+const products = [
+
+  {
+
+    name: "Product 1",
+
+    price: 200,
+
+    discount: 5,
+
+    image: "https://placehold.co/500x400?text=Product+1"
+
+  },
+
+  {
+
+    name: "Product 2",
+
+    price: 500,
+
+    discount: 7,
+
+    image: "https://placehold.co/500x400?text=Product+2"
+
+  },
+
+  {
+
+    name: "Product 3",
+
+    price: 350,
+
+    discount: 10,
+
+    image: "https://placehold.co/500x400?text=Product+3"
+
+  },
+
+  {
+
+    name: "Product 4",
+
+    price: 800,
+
+    discount: 5,
+
+    image: "https://placehold.co/500x400?text=Product+4"
+
+  },
+
+  {
+
+    name: "Product 5",
+
+    price: 1200,
+
+    discount: 8,
+
+    image: "https://placehold.co/500x400?text=Product+5"
+
+  },
+
+  {
+
+    name: "Product 6",
+
+    price: 650,
+
+    discount: 0,
+
+    image: "https://placehold.co/500x400?text=Product+6"
+
+  },
+
+  {
+
+    name: "Product 7",
+
+    price: 1000,
+
+    discount: 6,
+
+    image: "https://placehold.co/500x400?text=Product+7"
+
+  },
+
+  {
+
+    name: "Product 8",
+
+    price: 450,
+
+    discount: 9,
+
+    image: "https://placehold.co/500x400?text=Product+8"
+
+  },
+
+  {
+
+    name: "Product 9",
+
+    price: 1500,
+
+    discount: 5,
+
+    image: "https://placehold.co/500x400?text=Product+9"
+
+  },
+
+  {
+
+    name: "Product 10",
+
+    price: 900,
+
+    discount: 7,
+
+    image: "https://placehold.co/500x400?text=Product+10"
+
+  }
+
+];
+
+// ======================================
+
+// SHOPPING CART
+
+// ======================================
+
+let cart = [];
+
+function money(amount) {
+
+  return CURRENCY + " " + Math.round(amount).toLocaleString("en-PK");
+
+}
+
+// Calculate original price from actual sale price
+
+// and discount percentage.
+
+function originalPrice(product) {
+
+  if (!product.discount) return product.price;
+
+  return Math.round(
+
+    product.price / (1 - product.discount / 100)
+
+  );
+
+}
+
+// ======================================
+
+// DISPLAY PRODUCTS
+
+// ======================================
+
+function renderProducts() {
+
+  const grid = document.getElementById("productGrid");
+
+  grid.innerHTML = products.map((p, i) => {
+
+    const oldPrice = originalPrice(p);
+
+    return `
+
+      <div class="card">
+
+        ${p.discount > 0
+
+          ? `<div class="discount">${p.discount}% OFF</div>`
+
+          : ""
+
+        }
+
+        <div class="product-image">
+
+          <img
+
+            src="${p.image}"
+
+            alt="${p.name}"
+
+            onerror="this.src='https://placehold.co/500x400?text=Product'"
+
+          >
+
+        </div>
+
+        <div class="details">
+
+          <h3>${p.name}</h3>
+
+          <div class="prices">
+
+            ${p.discount > 0
+
+              ? `<span class="old-price">${money(oldPrice)}</span>`
+
+              : ""
+
+            }
+
+            <span class="new-price">${money(p.price)}</span>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="add" onclick="addToCart(${i})">
+
+              Add to Cart
+
+            </button>
+
+            <button class="buy" onclick="buyNow(${i})">
+
+              Buy Now
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+// ======================================
+
+// ADD TO CART
+
+// ======================================
+
+function addToCart(index) {
+
+  const existing = cart.find(item => item.index === index);
+
+  if (existing) {
+
+    existing.qty++;
+
+  } else {
+
+    cart.push({
+
+      index: index,
+
+      qty: 1
+
+    });
+
+  }
+
+  updateCart();
+
+}
+
+// ======================================
+
+// REMOVE AND CHANGE QUANTITY
+
+// ======================================
+
+function changeQty(index, amount) {
+
+  const item = cart.find(item => item.index === index);
+
+  if (!item) return;
+
+  item.qty += amount;
+
+  if (item.qty <= 0) {
+
+    cart = cart.filter(item => item.index !== index);
+
+  }
+
+  updateCart();
+
+}
+
+function removeItem(index) {
+
+  cart = cart.filter(item => item.index !== index);
+
+  updateCart();
+
+}
+
+// ======================================
+
+// UPDATE CART TOTALS
+
+// ======================================
+
+function updateCart() {
+
+  const count = cart.reduce(
+
+    (sum, item) => sum + item.qty, 0
+
+  );
+
+  document.getElementById("cartCount").textContent = count;
+
+  const cartItems = document.getElementById("cartItems");
+
+  if (cart.length === 0) {
+
+    cartItems.innerHTML = `
+
+      <div class="empty">
+
+        <h3>Your cart is empty!</h3>
+
+        <p>Add some products to get started.</p>
+
+      </div>
+
+    `;
+
+    document.getElementById("cartSummary").style.display = "none";
+
+    return;
+
+  }
+
+  document.getElementById("cartSummary").style.display = "block";
+
+  cartItems.innerHTML = cart.map(item => {
+
+    const p = products[item.index];
+
+    return `
+
+      <div class="cart-item">
+
+        <div class="cart-item-info">
+
+          <strong>${p.name}</strong>
+
+          <p>${money(p.price)} each</p>
+
+          <div class="quantity">
+
+            <button onclick="changeQty(${item.index},-1)">−</button>
+
+            <span>${item.qty}</span>
+
+            <button onclick="changeQty(${item.index},1)">+</button>
+
+          </div>
+
+        </div>
+
+        <button class="remove" onclick="removeItem(${item.index})">
+
+          Remove
+
+        </button>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+  const originalTotal = cart.reduce((sum, item) => {
+
+    return sum + originalPrice(products[item.index]) * item.qty;
+
+  }, 0);
+
+  const actualTotal = cart.reduce((sum, item) => {
+
+    return sum + products[item.index].price * item.qty;
+
+  }, 0);
+
+  const saved = originalTotal - actualTotal;
+
+  document.getElementById("originalTotal").textContent =
+
+    money(originalTotal);
+
+  document.getElementById("savings").textContent =
+
+    money(saved);
+
+  document.getElementById("grandTotal").textContent =
+
+    money(actualTotal);
+
+}
+
+// ======================================
+
+// OPEN AND CLOSE CART
+
+// ======================================
+
+function openCart() {
+
+  document.getElementById("cartOverlay").style.display = "block";
+
+  updateCart();
+
+}
+
+function closeCart() {
+
+  document.getElementById("cartOverlay").style.display = "none";
+
+}
+
+function overlayClick(event) {
+
+  if (event.target.id === "cartOverlay") {
+
+    closeCart();
+
+  }
+
+}
+
+// ======================================
+
+// BUY NOW - WHATSAPP
+
+// ======================================
+
+function buyNow(index) {
+
+  const p = products[index];
+
+  const message =
+
+`Hello D. Products! I want to order this product:
+
+Product: ${p.name}
+
+Price: ${money(p.price)}
+
+Discount: ${p.discount}%
+
+Please confirm availability and delivery details.`;
+
+  sendWhatsApp(message);
+
+}
+
+// ======================================
+
+// FINAL CART CHECKOUT - WHATSAPP
+
+// ======================================
+
+function checkout() {
+
+  if (cart.length === 0) {
+
+    alert("Your cart is empty!");
+
+    return;
+
+  }
+
+  let message = "Hello D. Products! I want to place an order:\n\n";
+
+  cart.forEach(item => {
+
+    const p = products[item.index];
+
+    message +=
+
+`${p.name}
+
+Quantity: ${item.qty}
+
+Price each: ${money(p.price)}
+
+Subtotal: ${money(p.price * item.qty)}
+
+`;
+
+  });
+
+  const total = cart.reduce((sum, item) => {
+
+    return sum + products[item.index].price * item.qty;
+
+  }, 0);
+
+  message +=
+
+`TOTAL: ${money(total)}
+
+Please confirm my order and delivery details.`;
+
+  sendWhatsApp(message);
+
+}
+
+// ======================================
+
+// WHATSAPP REDIRECT
+
+// ======================================
+
+function sendWhatsApp(message) {
+
+  const url =
+
+    "https://wa.me/" +
+
+    WHATSAPP_NUMBER +
+
+    "?text=" +
+
+    encodeURIComponent(message);
+
+  window.open(url, "_blank");
+
+}
+
+// START WEBSITE
+
+renderProducts();
+
+updateCart();
+
+</script>
+
+</body>
+
+</html>
